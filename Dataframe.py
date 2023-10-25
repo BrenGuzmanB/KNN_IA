@@ -38,12 +38,13 @@ class Dataframe(object):
         test_indices = indices[:num_test_samples]
 
         # Divide los datos y etiquetas en conjuntos de entrenamiento y prueba
-        X_train = [self.__data[i] for i in train_indices]
-        y_train = [self.__label[i] for i in train_indices]
-        X_test = [self.__data[i] for i in test_indices]
-        y_test = [self.__label[i] for i in test_indices]
+        X_train = np.array([self.__data[i] for i in train_indices])
+        y_train = np.array([self.__label[i] for i in train_indices])
+        X_test = np.array([self.__data[i] for i in test_indices])
+        y_test = np.array([self.__label[i] for i in test_indices])
 
         return X_train, X_test, y_train, y_test
+
 
     # Función para leer datos de un archivo
     def load(self, Name):
@@ -78,9 +79,7 @@ dataframe.load('data.csv')
 X_train, X_test, y_train, y_test = dataframe.split_data(0.2)  
 
 df = dataframe.data()
-
 '''
 
-    
 
 
