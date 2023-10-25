@@ -17,10 +17,17 @@ df = dataframe.data()
 
 #%% CLASIFICAR
 
-
 knn = KNN(k=3)
 
 knn.fit(X_train, y_train)
 y_pred = knn.predict(X_test)
+
+#%% EVALUAR
+
 accuracy = knn.accuracy(y_test, y_pred)
 print(f'Accuracy: {accuracy}')
+
+
+matrix = knn.confusion_matrix(y_test, y_pred)
+print(matrix)
+
