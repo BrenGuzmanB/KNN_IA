@@ -25,9 +25,10 @@ y_pred = knn.predict(X_test)
 #%% EVALUAR
 
 accuracy = knn.accuracy(y_test, y_pred)
-print(f'Accuracy: {accuracy}')
+print(f'\nAccuracy: {accuracy}')
 
 
 matrix = knn.confusion_matrix(y_test, y_pred)
+print('\n\n Confusion Matrix')
 print(matrix)
 

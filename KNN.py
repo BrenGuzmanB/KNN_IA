@@ -39,7 +39,15 @@ class KNN:
             k_indices = np.argsort(distances)[:self.k]
             # Obtiene las etiquetas de los k puntos más cercanos
             k_nearest_labels = [self.y_train[i] for i in k_indices]
-    
+            
+            # Imprimir información sobre el punto y sus k vecinos cercanos
+            print(f"\n\nPoint to Predict: {x}")
+            for i, idx in enumerate(k_indices):
+                neighbor = self.X_train[idx]
+                neighbor_label = k_nearest_labels[i]
+                distance = distances[idx]
+                print(f"Neighbor {i + 1}: {neighbor}, Label: {neighbor_label}, Distance: {distance}")
+        
             # Calcula la etiqueta más común entre los k puntos más cercanos
             counts = {}
             for label in k_nearest_labels:
@@ -48,9 +56,10 @@ class KNN:
                 else:
                     counts[label] = 1
             most_common = max(counts, key=counts.get)
-    
+            
             y_pred.append(most_common)
         return np.array(y_pred)
+
 
 
     def accuracy(self, y_true, y_pred):
