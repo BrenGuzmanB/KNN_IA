@@ -29,21 +29,22 @@ class Dataframe(object):
         num_samples = self.numSample
         num_attributes = self.numAttrib
         num_test_samples = int(num_samples * test_size)
-
+    
         # Realiza una permutación de los índices para dividir los datos en forma aleatoria
         indices = np.random.permutation(num_samples)
-
+    
         # Divide los índices en conjuntos de entrenamiento y prueba
         train_indices = indices[num_test_samples:]
         test_indices = indices[:num_test_samples]
-
+    
         # Divide los datos y etiquetas en conjuntos de entrenamiento y prueba
-        X_train = np.array([self.__data[i] for i in train_indices])
+        X_train = np.array([self.__data[i, :-1] for i in train_indices])  # Excluye la última columna
         y_train = np.array([self.__label[i] for i in train_indices])
-        X_test = np.array([self.__data[i] for i in test_indices])
+        X_test = np.array([self.__data[i, :-1] for i in test_indices])  # Excluye la última columna
         y_test = np.array([self.__label[i] for i in test_indices])
-
+    
         return X_train, X_test, y_train, y_test
+
 
 
     # Función para leer datos de un archivo
