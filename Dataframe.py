@@ -23,6 +23,7 @@ class Dataframe(object):
 
     def split_data(self, test_size):
         # Realiza una división de los datos en conjuntos de entrenamiento y prueba
+        np.random.seed(3)
         if self.numSample is None or self.numAttrib is None:
             raise ValueError("Número de muestras y atributos no definidos. Cargue los datos primero.")
         

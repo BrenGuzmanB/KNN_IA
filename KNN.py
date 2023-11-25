@@ -6,6 +6,8 @@ Created on Tue Oct 24 23:27:27 2023
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import random
 
 class KNN:
     def __init__(self, k=3):
@@ -30,9 +32,11 @@ class KNN:
         distance = squared_distance ** 0.5
         return distance
 
-    def predict(self, X_test):
+    def predict(self, X_test, y_test, show_misclassified=False):
         y_pred = []
-        for x in X_test:
+        misclassified = []
+
+        for i, x in enumerate(X_test):
             # Calcula las distancias entre x y todos los puntos en el conjunto de entrenamiento
             distances = [self.euclidean_distance(x, x_train) for x_train in self.X_train]
             # Obtiene los índices de los k puntos más cercanos
@@ -40,14 +44,6 @@ class KNN:
             # Obtiene las etiquetas de los k puntos más cercanos
             k_nearest_labels = [self.y_train[i] for i in k_indices]
             
-            # Imprimir información sobre el punto y sus k vecinos cercanos
-            print(f"\n\nPoint to Predict: {x}")
-            for i, idx in enumerate(k_indices):
-                neighbor = self.X_train[idx]
-                neighbor_label = k_nearest_labels[i]
-                distance = distances[idx]
-                print(f"Neighbor {i + 1}: {neighbor}, Label: {neighbor_label}, Distance: {distance}")
-        
             # Calcula la etiqueta más común entre los k puntos más cercanos
             counts = {}
             for label in k_nearest_labels:
@@ -58,9 +54,15 @@ class KNN:
             most_common = max(counts, key=counts.get)
             
             y_pred.append(most_common)
+
+            # Verifica si la predicción es incorrecta
+            if most_common != y_test[i]:
+                misclassified.append((i, y_test[i], most_common))
+        
+        if show_misclassified:
+            self.show_misclassified_images(X_test, misclassified)
+
         return np.array(y_pred)
-
-
 
     def accuracy(self, y_true, y_pred):
         # Calcula la precisión (accuracy) de las predicciones
@@ -88,6 +90,23 @@ class KNN:
             matrix[true_index][pred_index] += 1
         
         return matrix
+    
+    def show_misclassified_images(self, X_test, misclassified):
+        # Muestra los dígitos clasificados incorrectamente
+        for index, true_label, pred_label in misclassified:
+            plt.figure()
+            plt.imshow(X_test[index].reshape(8, 8), cmap='gray', interpolation='nearest')
+            plt.title(f"True Label: {true_label}, Predicted Label: {pred_label}")
+            plt.show()
+            
+    def plot_random_images(self, X_test, y_pred, n=5):
+        # Selecciona n índices aleatorios de las imágenes de prueba
+        random_indices = random.sample(range(len(X_test)), n)
 
-
+        # Muestra las imágenes seleccionadas aleatoriamente
+        for index in random_indices:
+            plt.figure()
+            plt.imshow(X_test[index].reshape(8, 8), cmap='gray', interpolation='nearest')
+            plt.title(f"Predicted Label: {y_pred[index]}")
+            plt.show()
   

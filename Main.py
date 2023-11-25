@@ -20,7 +20,8 @@ df = dataframe.data()
 knn = KNN(k=3)
 
 knn.fit(X_train, y_train)
-y_pred = knn.predict(X_test)
+#y_pred = knn.predict(X_test)
+y_pred = knn.predict(X_test, y_test, show_misclassified=True)
 
 #%% EVALUAR
 
@@ -31,4 +32,8 @@ print(f'\nAccuracy: {accuracy}')
 matrix = knn.confusion_matrix(y_test, y_pred)
 print('\n\n Confusion Matrix')
 print(matrix)
+
+#%% IMPRIMIR
+# Para mostrar una muestra aleatoria de 5 imágenes
+knn.plot_random_images(X_test, y_pred, n=15)
 
